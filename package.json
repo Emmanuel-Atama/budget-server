@@ -4,8 +4,8 @@
   "description": "Personal budgeting app",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/app.js",
-    "dev": "nodemon src/app.ts",
+    "start": "node dist/backend/app.js",
+    "dev": "nodemon backend/app.ts",
     "build": "tsc -p ."
   },
   "author": "Nathan King",
