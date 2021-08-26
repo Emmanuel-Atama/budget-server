@@ -1,24 +1,18 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import path from "path";
+import { Router } from "./Router";
 
 export class Server {
     private app: Application;
+    private router: Router;
 
     constructor(app: Application) {
         this.app = app;
-
-        this.app.use(express.static(`${path.resolve('./')}/dist/frontend`));
-
-        this.app.get('/api', (req: Request, res: Response, next: NextFunction): void => {
-            res.send('API has been initialized!');
-        });
-
-        this.app.get('*', (req: Request, res: Response): void => {
-            res.sendFile(`${path.resolve("./")}/dist/frontend/index.html`);
-        });
+        this.router = new Router(this.app);
     }
 
     public start(port: number): void {
+        this.router.initializeRoutes('/api');
         this.app.listen(port, () => console.log(`API server listening on port ${port}`));
     }
 }
