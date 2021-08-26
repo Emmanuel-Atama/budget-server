@@ -12,7 +12,7 @@ export class Router {
         this.app.use(express.static(`${path.resolve('./')}/dist/frontend`));
 
         this.app.get(apiUrl, (req: Request, res: Response, next: NextFunction): void => {
-            res.send('The API has been reached!');
+            res.send('This is the API\'s base URL!');
         });
 
         this.app.get('*', (req: Request, res: Response): void => {
