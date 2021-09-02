@@ -2,9 +2,6 @@ import express, { Application, Request, Response, NextFunction } from "express";
 import path from "path";
 import { ExpenseConnection } from "./data/ExpenseConnection";
 import { IncomeConnection } from "./data/IncomeConnection";
-import { mockExpenses, mockIncome } from "./mockData";
-import { Expense } from "./model/Expense";
-import { Income } from "./model/Income";
 import dbClient from "./utils/dbClient";
 
 export class Router {
