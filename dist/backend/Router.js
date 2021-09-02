@@ -8,7 +8,6 @@ const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const ExpenseConnection_1 = require("./data/ExpenseConnection");
 const IncomeConnection_1 = require("./data/IncomeConnection");
-const mockData_1 = require("./mockData");
 const dbClient_1 = __importDefault(require("./utils/dbClient"));
 class Router {
     constructor(app, apiUrl) {
@@ -37,29 +36,31 @@ class Router {
         });
         this.app.get(`${this.apiUrl}/expense/:id`, (req, res) => {
             const id = parseInt(req.params.id);
-            const found = mockData_1.mockExpenses.find(expense => expense.id === id);
-            if (found) {
-                res.json(found);
-                return;
-            }
-            res.status(404).json({
-                message: `No expense found with ID ${id}`
+            this.expenseConnection.getOne(id).then(data => {
+                if (data) {
+                    res.json(data);
+                    return;
+                }
+                res.status(404).json({
+                    message: `No expense found with ID ${id}`
+                });
             });
         });
     }
     initializeIncomeRoutes() {
         this.app.get(`${this.apiUrl}/income`, (req, res) => {
-            res.json(mockData_1.mockIncome);
+            this.incomeConnection.getMany().then(data => res.json(data));
         });
         this.app.get(`${this.apiUrl}/income/:id`, (req, res) => {
             const id = parseInt(req.params.id);
-            const found = mockData_1.mockIncome.find(income => income.id === id);
-            if (found) {
-                res.json(found);
-                return;
-            }
-            res.status(404).json({
-                message: `No income found with ID ${id}`
+            this.incomeConnection.getOne(id).then(data => {
+                if (data) {
+                    res.json(data);
+                    return;
+                }
+                res.status(404).json({
+                    message: `No income found with ID ${id}`
+                });
             });
         });
     }

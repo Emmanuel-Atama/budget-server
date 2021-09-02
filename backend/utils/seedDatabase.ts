@@ -1,23 +1,27 @@
 import dbClient from './dbClient';
+import { IncomeConnection } from '../data/IncomeConnection';
+import { ExpenseConnection } from '../data/ExpenseConnection';
+import { mockIncome, mockExpenses } from '../mockData';
+import { Income } from '../model/Income';
+import { Expense } from '../model/Expense';
 
 async function seed(): Promise<void> {
-    await dbClient.income.create({
-        data: {
-            source: 'Nathan',
-            amount: 2048.00
-        }
+    await dbClient.income.deleteMany({});
+    await dbClient.expense.deleteMany({});
+
+    const incomeConnection: IncomeConnection = new IncomeConnection(dbClient);
+    const expenseConnection: ExpenseConnection = new ExpenseConnection(dbClient);
+
+    mockIncome.forEach(async (income: Income) => {
+        await incomeConnection.create(income);
     });
 
-    await dbClient.expense.create({
-        data: {
-            name: 'Phone',
-            source: 'Nathan',
-            amount: 29.99
-        }
+    mockExpenses.forEach(async (expense: Expense) => {
+        await expenseConnection.create(expense);
     });
 
-    const allIncome = await dbClient.income.findMany();
-    const allExpenses = await dbClient.expense.findMany();
+    const allIncome = await incomeConnection.getMany();
+    const allExpenses = await expenseConnection.getMany();
 
     console.log("Income:", allIncome);
     console.log("Expense:", allExpenses);

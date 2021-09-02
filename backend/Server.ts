@@ -5,9 +5,9 @@ export class Server {
     private app: Application;
     private router: Router;
 
-    constructor(app: Application) {
+    constructor(app: Application, router: Router) {
         this.app = app;
-        this.router = new Router(this.app, '/api');
+        this.router = router;
     }
 
     public start(port: number): void {

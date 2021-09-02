@@ -13,23 +13,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dbClient_1 = __importDefault(require("./dbClient"));
+const IncomeConnection_1 = require("../data/IncomeConnection");
+const ExpenseConnection_1 = require("../data/ExpenseConnection");
+const mockData_1 = require("../mockData");
 function seed() {
     return __awaiter(this, void 0, void 0, function* () {
-        yield dbClient_1.default.income.create({
-            data: {
-                source: 'Nathan',
-                amount: 2048.00
-            }
-        });
-        yield dbClient_1.default.expense.create({
-            data: {
-                name: 'Phone',
-                source: 'Nathan',
-                amount: 29.99
-            }
-        });
-        const allIncome = yield dbClient_1.default.income.findMany();
-        const allExpenses = yield dbClient_1.default.expense.findMany();
+        yield dbClient_1.default.income.deleteMany({});
+        yield dbClient_1.default.expense.deleteMany({});
+        const incomeConnection = new IncomeConnection_1.IncomeConnection(dbClient_1.default);
+        const expenseConnection = new ExpenseConnection_1.ExpenseConnection(dbClient_1.default);
+        mockData_1.mockIncome.forEach((income) => __awaiter(this, void 0, void 0, function* () {
+            yield incomeConnection.create(income);
+        }));
+        mockData_1.mockExpenses.forEach((expense) => __awaiter(this, void 0, void 0, function* () {
+            yield expenseConnection.create(expense);
+        }));
+        const allIncome = yield incomeConnection.getMany();
+        const allExpenses = yield expenseConnection.getMany();
         console.log("Income:", allIncome);
         console.log("Expense:", allExpenses);
     });

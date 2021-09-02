@@ -1,11 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Server = void 0;
-const Router_1 = require("./Router");
 class Server {
-    constructor(app) {
+    constructor(app, router) {
         this.app = app;
-        this.router = new Router_1.Router(this.app, '/api');
+        this.router = router;
     }
     start(port) {
         this.router.initializeRoutes();
