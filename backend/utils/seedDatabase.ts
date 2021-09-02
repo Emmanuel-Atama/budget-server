@@ -1,27 +1,27 @@
 import dbClient from './dbClient';
-import { IncomeConnection } from '../data/IncomeConnection';
-import { ExpenseConnection } from '../data/ExpenseConnection';
 import { mockIncome, mockExpenses } from '../mockData';
 import { Income } from '../model/Income';
 import { Expense } from '../model/Expense';
+import commandBus from './commandBus';
+import { CreateExpense } from '../command/expense/CreateExpense';
+import { CreateIncome } from '../command/income/CreateIncome';
+import { GetAllIncome } from '../command/income/GetAllIncome';
+import { GetAllExpenses } from '../command/expense/GetAllExpenses';
 
 async function seed(): Promise<void> {
     await dbClient.income.deleteMany({});
     await dbClient.expense.deleteMany({});
 
-    const incomeConnection: IncomeConnection = new IncomeConnection(dbClient);
-    const expenseConnection: ExpenseConnection = new ExpenseConnection(dbClient);
-
     mockIncome.forEach(async (income: Income) => {
-        await incomeConnection.create(income);
+        await commandBus.dispatch(new CreateIncome(income));
     });
 
     mockExpenses.forEach(async (expense: Expense) => {
-        await expenseConnection.create(expense);
+        await commandBus.dispatch(new CreateExpense(expense));
     });
 
-    const allIncome = await incomeConnection.getMany();
-    const allExpenses = await expenseConnection.getMany();
+    const allIncome = await commandBus.dispatch(new GetAllIncome);
+    const allExpenses = await commandBus.dispatch(new GetAllExpenses);
 
     console.log("Income:", allIncome);
     console.log("Expense:", allExpenses);

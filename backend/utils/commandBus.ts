@@ -8,6 +8,7 @@ import { GetAllExpensesHandler } from "../command/expense/handler/GetAllExpenses
 import { GetExpenseHandler } from "../command/expense/handler/GetExpenseHandler";
 import { GetIncomeHandler } from "../command/income/handler/GetIncomeHandler";
 import { GetAllIncomeHandler } from "../command/income/handler/GetAllIncomeHandler";
+import { CreateIncomeHandler } from "../command/income/handler/CreateIncomeHandler";
 
 const expenseConnection: ExpenseConnection = new ExpenseConnection(dbClient);
 const incomeConnection: IncomeConnection = new IncomeConnection(dbClient);
@@ -17,7 +18,8 @@ const registry: CommandRegistry = new CommandRegistry([
     ['GetAllExpenses', new GetAllExpensesHandler(expenseConnection)],
     ['GetExpense', new GetExpenseHandler(expenseConnection)],
     ['GetIncome', new GetIncomeHandler(incomeConnection)],
-    ['GetAllIncome', new GetAllIncomeHandler(incomeConnection)]
+    ['GetAllIncome', new GetAllIncomeHandler(incomeConnection)],
+    ['CreateIncome', new CreateIncomeHandler(incomeConnection)]
 ]);
 
 const commandBus: CommandBus = new CommandBus(registry);
