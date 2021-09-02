@@ -1,16 +1,23 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import path from "path";
+import { ExpenseConnection } from "./data/ExpenseConnection";
+import { IncomeConnection } from "./data/IncomeConnection";
 import { mockExpenses, mockIncome } from "./mockData";
 import { Expense } from "./model/Expense";
 import { Income } from "./model/Income";
+import dbClient from "./utils/dbClient";
 
 export class Router {
     private app: Application;
     private apiUrl: string;
+    private incomeConnection: IncomeConnection;
+    private expenseConnection: ExpenseConnection;
 
     constructor(app: Application, apiUrl: string) {
         this.app = app;
         this.apiUrl = apiUrl;
+        this.incomeConnection = new IncomeConnection(dbClient);
+        this.expenseConnection = new ExpenseConnection(dbClient);
     }
 
     public initializeRoutes(): void {
@@ -34,40 +41,38 @@ export class Router {
 
     private initializeExpenseRoutes(): void {
         this.app.get(`${this.apiUrl}/expense`, (req: Request, res: Response): void => {
-            res.json(mockExpenses);
+            this.expenseConnection.getMany().then(data => res.json(data));
         });
 
         this.app.get(`${this.apiUrl}/expense/:id`, (req: Request, res: Response): void => {
-            const id: number = parseInt(req.params.id);
-            const found: Expense | undefined = mockExpenses.find(expense => expense.id === id);
+            this.expenseConnection.getOne(parseInt(req.params.id)).then(data => {
+                if (data) {
+                    res.json(data);
+                    return;
+                }
 
-            if (found) {
-                res.json(found);
-                return;
-            }
-
-            res.status(404).json({
-                message: `No expense found with ID ${id}`
+                res.status(404).json({
+                    message: `No expense found with ID ${req.params.id}`
+                });
             });
         });
     }
 
     private initializeIncomeRoutes(): void {
         this.app.get(`${this.apiUrl}/income`, (req: Request, res: Response): void => {
-            res.json(mockIncome);
+            this.incomeConnection.getMany().then(data => res.json(data));
         });
 
         this.app.get(`${this.apiUrl}/income/:id`, (req: Request, res: Response): void => {
-            const id: number = parseInt(req.params.id);
-            const found: Income | undefined = mockIncome.find(income => income.id === id);
+            this.incomeConnection.getOne(parseInt(req.params.id)).then(data => {
+                if (data) {
+                    res.json(data);
+                    return;
+                }
 
-            if (found) {
-                res.json(found);
-                return;
-            }
-
-            res.status(404).json({
-                message: `No income found with ID ${id}`
+                res.status(404).json({
+                    message: `No income found with ID ${req.params.id}`
+                });
             });
         });
     }

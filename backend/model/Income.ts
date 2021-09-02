@@ -1,13 +1,13 @@
-import { Identity } from "./Identity";
+import { Entity } from "./Entity";
 import { Timestamped } from "./Timestamped";
 
-export class Income implements Timestamped, Identity {
+export class Income implements Timestamped, Entity {
     private readonly _id: number;
     private readonly _source: string;
     private readonly _amount: number;
-    private readonly _timestamp: number;
+    private readonly _timestamp: Date;
 
-    constructor(id: number, source: string, amount: number, timestamp: number) {
+    constructor(id: number, source: string, amount: number, timestamp: Date) {
         this._id = id;
         this._source = source;
         this._amount = amount;
@@ -26,7 +26,7 @@ export class Income implements Timestamped, Identity {
         return this._amount;
     }
 
-    get timestamp(): number {
+    get timestamp(): Date {
         return this._timestamp;
     }
 

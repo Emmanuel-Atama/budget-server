@@ -1,3 +1,3 @@
 export interface Timestamped {
-    timestamp: number;
+    timestamp: Date;
 }

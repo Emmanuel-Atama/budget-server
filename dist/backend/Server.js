@@ -5,10 +5,10 @@ const Router_1 = require("./Router");
 class Server {
     constructor(app) {
         this.app = app;
-        this.router = new Router_1.Router(this.app);
+        this.router = new Router_1.Router(this.app, '/api');
     }
     start(port) {
-        this.router.initializeRoutes('/api');
+        this.router.initializeRoutes();
         this.app.listen(port, () => console.log(`API server listening on port ${port}`));
     }
 }
