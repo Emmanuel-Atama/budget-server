@@ -1,15 +1,16 @@
-import { IncomeConnection } from "../../../data/IncomeConnection";
+import { DatabaseConnection } from "../../../data/DatabaseConnection";
+import { Income } from "../../../model/Income";
 import { CommandHandler } from "../../CommandHandler";
 import { GetAllIncome } from "../GetAllIncome";
 
 export class GetAllIncomeHandler implements CommandHandler {
-    private connection: IncomeConnection;
+    private connection: DatabaseConnection;
 
-    constructor(connection: IncomeConnection) {
+    constructor(connection: DatabaseConnection) {
         this.connection = connection;
     }
 
-    async handle(command: GetAllIncome) {
-        return await this.connection.getMany(command.limit);
+    async handle(command: GetAllIncome): Promise<Income[]> {
+        return await this.connection.getMany(command.limit) as Income[];
     }
 }

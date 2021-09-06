@@ -1,16 +1,15 @@
-import { ExpenseConnection } from "../../../data/ExpenseConnection";
+import { DatabaseConnection } from "../../../data/DatabaseConnection";
 import { CommandHandler } from "../../CommandHandler";
 import { CreateExpense } from "../CreateExpense";
 
 export class CreateExpenseHandler implements CommandHandler {
-    private connection;
+    private connection: DatabaseConnection;
 
-    constructor(connection: ExpenseConnection) {
+    constructor(connection: DatabaseConnection) {
         this.connection = connection;
     }
 
-    async handle(command: CreateExpense): Promise<undefined> {
+    async handle(command: CreateExpense): Promise<void> {
         await this.connection.create(command.expense);
-        return;
     }
 }

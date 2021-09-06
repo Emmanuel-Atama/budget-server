@@ -1,11 +1,11 @@
-import { IncomeConnection } from "../../../data/IncomeConnection";
+import { DatabaseConnection } from "../../../data/DatabaseConnection";
 import { CommandHandler } from "../../CommandHandler";
 import { CreateIncome } from "../CreateIncome";
 
 export class CreateIncomeHandler implements CommandHandler {
-    private connection: IncomeConnection;
+    private connection: DatabaseConnection;
 
-    constructor(connection: IncomeConnection) {
+    constructor(connection: DatabaseConnection) {
         this.connection = connection;
     }
 
