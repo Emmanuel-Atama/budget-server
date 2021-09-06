@@ -1,23 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import { Header } from './components/layout/Header';
+import { Sidebar } from './components/layout/Sidebar';
+import { Main } from './components/layout/Main';
+import { useEffect, useState } from 'react';
+import { ApiWrapper } from './utils/ApiWrapper';
+
+const apiUrl = 'http://localhost:4000';
+const apiWrapper = new ApiWrapper(apiUrl);
 
 function App() {
+  const [expenses, setExpenses] = useState([]);
+  const [income, setIncome] = useState([]);
+
+  console.log('In state', expenses, income);
+
+  useEffect(() => {
+    apiWrapper.getAllExpenses().then(data => setExpenses(data));
+    apiWrapper.getAllIncome().then(data => setIncome(data));
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <Header />
+
+      <div className="container-fluid">
+        <div className="row">
+
+          <Sidebar />
+
+          <Main />
+        </div>
+      </div>
     </div>
   );
 }
