@@ -1,15 +1,15 @@
-import { DatabaseConnection } from "../../../data/DatabaseConnection";
+import { Repository } from "../../../data/Repository";
 import { CommandHandler } from "../../CommandHandler";
 import { CreateIncome } from "../CreateIncome";
 
 export class CreateIncomeHandler implements CommandHandler {
-    private connection: DatabaseConnection;
+    private repository: Repository;
 
-    constructor(connection: DatabaseConnection) {
-        this.connection = connection;
+    constructor(repository: Repository) {
+        this.repository = repository;
     }
 
     async handle(command: CreateIncome): Promise<void> {
-        this.connection.create(command.income);
+        this.repository.create(command.income);
     }
 }

@@ -1,7 +1,7 @@
 import { CommandRegistry } from "../command/CommandRegistry";
 import dbClient from "./dbClient";
-import { ExpenseConnection } from "../data/ExpenseConnection";
-import { IncomeConnection } from "../data/IncomeConnection";
+import { ExpenseRepository } from "../data/ExpenseRepository";
+import { IncomeRepository } from "../data/IncomeRepository";
 import { CreateExpenseHandler } from "../command/expense/handler/CreateExpenseHandler";
 import { CommandBus } from "../command/CommandBus";
 import { GetAllExpensesHandler } from "../command/expense/handler/GetAllExpensesHandler";
@@ -10,16 +10,16 @@ import { GetIncomeHandler } from "../command/income/handler/GetIncomeHandler";
 import { GetAllIncomeHandler } from "../command/income/handler/GetAllIncomeHandler";
 import { CreateIncomeHandler } from "../command/income/handler/CreateIncomeHandler";
 
-const expenseConnection: ExpenseConnection = new ExpenseConnection(dbClient);
-const incomeConnection: IncomeConnection = new IncomeConnection(dbClient);
+const expenseRepository: ExpenseRepository = new ExpenseRepository(dbClient);
+const incomeRepository: IncomeRepository = new IncomeRepository(dbClient);
 
 const registry: CommandRegistry = new CommandRegistry([
-    ['CreateExpense', new CreateExpenseHandler(expenseConnection)],
-    ['GetAllExpenses', new GetAllExpensesHandler(expenseConnection)],
-    ['GetExpense', new GetExpenseHandler(expenseConnection)],
-    ['GetIncome', new GetIncomeHandler(incomeConnection)],
-    ['GetAllIncome', new GetAllIncomeHandler(incomeConnection)],
-    ['CreateIncome', new CreateIncomeHandler(incomeConnection)]
+    ['CreateExpense', new CreateExpenseHandler(expenseRepository)],
+    ['GetAllExpenses', new GetAllExpensesHandler(expenseRepository)],
+    ['GetExpense', new GetExpenseHandler(expenseRepository)],
+    ['GetIncome', new GetIncomeHandler(incomeRepository)],
+    ['GetAllIncome', new GetAllIncomeHandler(incomeRepository)],
+    ['CreateIncome', new CreateIncomeHandler(incomeRepository)]
 ]);
 
 const commandBus: CommandBus = new CommandBus(registry);

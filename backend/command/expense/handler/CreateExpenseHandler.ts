@@ -1,15 +1,15 @@
-import { DatabaseConnection } from "../../../data/DatabaseConnection";
+import { Repository } from "../../../data/Repository";
 import { CommandHandler } from "../../CommandHandler";
 import { CreateExpense } from "../CreateExpense";
 
 export class CreateExpenseHandler implements CommandHandler {
-    private connection: DatabaseConnection;
+    private repository: Repository;
 
-    constructor(connection: DatabaseConnection) {
-        this.connection = connection;
+    constructor(repository: Repository) {
+        this.repository = repository;
     }
 
     async handle(command: CreateExpense): Promise<void> {
-        await this.connection.create(command.expense);
+        await this.repository.create(command.expense);
     }
 }

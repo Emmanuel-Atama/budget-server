@@ -1,16 +1,16 @@
-import { DatabaseConnection } from "../../../data/DatabaseConnection";
+import { Repository } from "../../../data/Repository";
 import { Expense } from "../../../model/Expense";
 import { CommandHandler } from "../../CommandHandler";
 import { GetAllExpenses } from "../GetAllExpenses";
 
 export class GetAllExpensesHandler implements CommandHandler {
-    private connection: DatabaseConnection;
+    private repository: Repository;
 
-    constructor(connection: DatabaseConnection) {
-        this.connection = connection;
+    constructor(repository: Repository) {
+        this.repository = repository;
     }
 
     async handle(command: GetAllExpenses): Promise<Expense[]> {
-        return await this.connection.getMany(command.limit) as Expense[];
+        return await this.repository.getMany(command.limit) as Expense[];
     }
 }

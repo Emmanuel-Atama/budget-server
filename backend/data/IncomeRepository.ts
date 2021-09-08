@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { Income } from "../model/Income";
-import { DatabaseConnection } from "./DatabaseConnection";
+import { Repository } from "./Repository";
 import { IncomeHydrator } from "./hydration/IncomeHydrator";
 
-export class IncomeConnection implements DatabaseConnection {
+export class IncomeRepository implements Repository {
     private dbClient: PrismaClient;
 
     constructor(dbClient: PrismaClient) {
