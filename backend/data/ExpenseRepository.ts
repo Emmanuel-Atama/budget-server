@@ -42,11 +42,7 @@ export class ExpenseRepository implements Repository {
             where: { id }
         });
 
-        if (raw) {
-            return ExpenseHydrator.hydrate(raw);
-        }
-
-        return null;
+        return raw ? ExpenseHydrator.hydrate(raw) : null;
     }
 
     async getMany(limit?: number): Promise<Expense[]> {

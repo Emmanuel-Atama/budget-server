@@ -42,11 +42,7 @@ export class IncomeRepository implements Repository {
             where: { id }
         });
 
-        if (raw) {
-            return IncomeHydrator.hydrate(raw);
-        }
-
-        return null;
+        return raw ? IncomeHydrator.hydrate(raw) : null;
     }
 
     async getMany(limit?: number): Promise<Income[]> {
