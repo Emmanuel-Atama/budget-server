@@ -2,6 +2,8 @@ import { PrismaClient } from "@prisma/client";
 import { User } from "../model/User";
 import { Repository } from "./Repository";
 import { UserHydrator } from "./hydration/UserHydrator";
+import { DuplicateEntityError } from "./DuplicateEntityError";
+import bcrypt from 'bcrypt';
 
 export class UserRepository implements Repository {
     private dbClient: PrismaClient;
@@ -11,12 +13,25 @@ export class UserRepository implements Repository {
     }
 
     async create(user: User): Promise<void> {
-        await this.dbClient.user.create({
-            data: {
-                ...UserHydrator.dehydrate(user),
-                id: undefined,
-                timestamp: undefined
+        const foundUser = await this.dbClient.user.findFirst({
+            where: {
+                username: user.username
             }
+        });
+
+        if (foundUser) {
+            throw new DuplicateEntityError(`User with username '${user.username}' already exists!`);
+        }
+
+        await bcrypt.hash(user.password, 10, async (error, hash) => {
+            await this.dbClient.user.create({
+                data: {
+                    ...UserHydrator.dehydrate(user),
+                    password: hash,
+                    id: undefined,
+                    timestamp: undefined
+                }
+            });
         });
     }
 

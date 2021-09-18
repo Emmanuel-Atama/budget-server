@@ -5,6 +5,9 @@ import { GetAllExpenses } from "./command/expense/GetAllExpenses";
 import { GetExpense } from "./command/expense/GetExpense";
 import { GetAllIncome } from "./command/income/GetAllIncome";
 import { GetIncome } from "./command/income/GetIncome";
+import { CreateUser } from "./command/user/CreateUser";
+import { GetUser } from "./command/user/GetUser";
+import { User } from "./model/User";
 
 export class Router {
     private app: Application;
@@ -34,6 +37,43 @@ export class Router {
 
         this.initializeIncomeRoutes();
         this.initializeExpenseRoutes();
+        this.initializeUserRoutes();
+    }
+
+    private initializeUserRoutes(): void {
+        this.app.get(`${this.apiUrl}/user/:id`, (req: Request, res: Response): void => {
+            const id: number = parseInt(req.params.id);
+
+            this.commandBus.dispatch(new GetUser(id)).then(data => {
+                if (data) {
+                    res.json(data);
+                    return;
+                }
+
+                res.status(404).json({
+                    message: `No user found with ID ${id}`
+                });
+            });
+        });
+
+        this.app.post(`${this.apiUrl}/user`, (req: Request, res: Response): void => {
+            try {
+                const {
+                    username,
+                    password
+                } = req.body;
+    
+                this.commandBus.dispatch(new CreateUser(new User(0, username, password, new Date))).then(() => {
+                    res.json({
+                        message: 'User created successfully!'
+                    });
+                });
+            } catch (e) {
+                res.status(500).json({
+                    message: 'Something went wrong. This might not be your fault.'
+                });
+            }
+        });
     }
 
     private initializeExpenseRoutes(): void {
