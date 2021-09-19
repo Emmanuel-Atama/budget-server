@@ -1,6 +1,6 @@
 import { Repository } from "../../data/Repository";
 import { CommandHandler } from "../CommandHandler";
-import { CreateEntityCommand } from "../CreateEntityCommand";
+import { EntityCommand } from "../EntityCommand";
 
 export class CreateEntityHandler implements CommandHandler {
     private repository: Repository;
@@ -9,7 +9,7 @@ export class CreateEntityHandler implements CommandHandler {
         this.repository = repository;
     }
 
-    async handle(command: CreateEntityCommand): Promise<void> {
+    async handle(command: EntityCommand): Promise<void> {
         this.repository.create(command.entity);
     }
 }

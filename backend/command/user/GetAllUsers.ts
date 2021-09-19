@@ -1,6 +1,6 @@
 import { GetManyCommand } from "../GetManyCommand";
 
-export class GetAllExpenses implements GetManyCommand {
+export class GetAllUsers implements GetManyCommand {
     private readonly _limit;
 
     constructor(limit?: number) {
@@ -12,6 +12,6 @@ export class GetAllExpenses implements GetManyCommand {
     }
 
     getName(): string {
-        return 'GetAllExpenses';
+        return 'GetAllUsers';
     }
 }

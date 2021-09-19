@@ -1,6 +1,6 @@
-import { Command } from "../Command";
+import { IdentityCommand } from "../IdentityCommand";
 
-export class GetIncome implements Command {
+export class GetIncome implements IdentityCommand {
     private readonly _id;
 
     constructor(id: number) {

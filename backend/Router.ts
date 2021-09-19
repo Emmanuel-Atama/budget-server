@@ -6,6 +6,7 @@ import { GetExpense } from "./command/expense/GetExpense";
 import { GetAllIncome } from "./command/income/GetAllIncome";
 import { GetIncome } from "./command/income/GetIncome";
 import { CreateUser } from "./command/user/CreateUser";
+import { GetAllUsers } from "./command/user/GetAllUsers";
 import { GetUser } from "./command/user/GetUser";
 import { User } from "./model/User";
 
@@ -74,11 +75,19 @@ export class Router {
                 });
             }
         });
+
+        this.app.get(`${this.apiUrl}/user`, (req: Request, res: Response): void => {
+            const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
+            
+            this.commandBus.dispatch(new GetAllUsers(limit)).then(data => res.json(data));
+        });
     }
 
     private initializeExpenseRoutes(): void {
         this.app.get(`${this.apiUrl}/expense`, (req: Request, res: Response): void => {
-            this.commandBus.dispatch(new GetAllExpenses).then(data => res.json(data));
+            const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
+
+            this.commandBus.dispatch(new GetAllExpenses(limit)).then(data => res.json(data));
         });
 
         this.app.get(`${this.apiUrl}/expense/:id`, (req: Request, res: Response): void => {
@@ -99,7 +108,9 @@ export class Router {
 
     private initializeIncomeRoutes(): void {
         this.app.get(`${this.apiUrl}/income`, (req: Request, res: Response): void => {
-            this.commandBus.dispatch(new GetAllIncome).then(data => res.json(data));
+            const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
+
+            this.commandBus.dispatch(new GetAllIncome(limit)).then(data => res.json(data));
         });
 
         this.app.get(`${this.apiUrl}/income/:id`, (req: Request, res: Response): void => {

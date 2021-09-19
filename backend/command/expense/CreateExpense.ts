@@ -1,14 +1,14 @@
 import { Expense } from "../../model/Expense";
-import { Command } from "../Command";
+import { EntityCommand } from "../EntityCommand";
 
-export class CreateExpense implements Command {
+export class CreateExpense implements EntityCommand {
     private readonly _expense: Expense;
 
     constructor(expense: Expense) {
         this._expense = expense;
     }
 
-    get expense(): Expense {
+    get entity(): Expense {
         return this._expense;
     }
 
