@@ -22,16 +22,6 @@ export class Router {
     }
 
     public initializeRoutes(): void {
-        this.app.use(express.static(`${path.resolve('./')}/dist/frontend`));
-
-        this.initializeApiRoutes();
-
-        this.app.get('*', (req: Request, res: Response): void => {
-            res.sendFile(`${path.resolve("./")}/dist/frontend/index.html`);
-        });
-    }
-
-    private initializeApiRoutes(): void {
         this.app.get(this.apiUrl, (req: Request, res: Response, next: NextFunction): void => {
             res.send('This is the API\'s base URL!');
         });
