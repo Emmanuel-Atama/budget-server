@@ -1,14 +1,14 @@
 import { User } from "../../model/User";
-import { Command } from "../Command";
+import { CreateEntityCommand } from "../CreateEntityCommand";
 
-export class CreateUser implements Command {
+export class CreateUser implements CreateEntityCommand {
     private readonly _user: User;
 
     constructor(user: User) {
         this._user = user;
     }
 
-    get user(): User {
+    get entity(): User {
         return this._user;
     }
 
