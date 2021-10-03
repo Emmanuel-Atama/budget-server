@@ -1,8 +1,8 @@
-import { Repository } from "../../data/Repository";
-import { CommandHandler } from "../CommandHandler";
-import { EntityCommand } from "../EntityCommand";
+import Repository from "../../data/Repository";
+import CommandHandler from "../CommandHandler";
+import EntityCommand from "../EntityCommand";
 
-export class CreateEntityHandler implements CommandHandler {
+export default class CreateEntityHandler implements CommandHandler {
     private repository: Repository;
 
     constructor(repository: Repository) {

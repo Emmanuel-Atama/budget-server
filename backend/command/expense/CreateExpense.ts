@@ -1,7 +1,7 @@
-import { Expense } from "../../model/Expense";
-import { EntityCommand } from "../EntityCommand";
+import Expense from "../../model/Expense";
+import EntityCommand from "../EntityCommand";
 
-export class CreateExpense implements EntityCommand {
+export default class CreateExpense implements EntityCommand {
     private readonly _expense: Expense;
 
     constructor(expense: Expense) {

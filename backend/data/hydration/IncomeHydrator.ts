@@ -1,6 +1,6 @@
-import { Income } from "../../model/Income";
+import Income from "../../model/Income";
 
-export class IncomeHydrator {
+export default class IncomeHydrator {
     static hydrate(raw: { id: number, source: string, amount: number, timestamp: Date }): Income {
         const {
             id,

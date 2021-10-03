@@ -1,7 +1,7 @@
-import { Command } from "./Command";
-import { CommandRegistry } from "./CommandRegistry";
+import Command from "./Command";
+import CommandRegistry from "./CommandRegistry";
 
-export class CommandBus {
+export default class CommandBus {
     private registry: CommandRegistry;
 
     constructor(registry: CommandRegistry) {

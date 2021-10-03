@@ -1,3 +1,3 @@
-export interface Timestamped {
+export default interface Timestamped {
     timestamp: Date;
 }

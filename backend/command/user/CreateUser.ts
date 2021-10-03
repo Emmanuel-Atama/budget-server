@@ -1,7 +1,7 @@
-import { User } from "../../model/User";
-import { EntityCommand } from "../EntityCommand";
+import User from "../../model/User";
+import EntityCommand from "../EntityCommand";
 
-export class CreateUser implements EntityCommand {
+export default class CreateUser implements EntityCommand {
     private readonly _user: User;
 
     constructor(user: User) {

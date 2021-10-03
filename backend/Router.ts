@@ -1,14 +1,15 @@
-import express, { Application, Request, Response, NextFunction } from "express";
-import path from "path";
-import { CommandBus } from "./command/CommandBus";
-import { GetAllExpenses } from "./command/expense/GetAllExpenses";
-import { GetExpense } from "./command/expense/GetExpense";
-import { GetAllIncome } from "./command/income/GetAllIncome";
-import { GetIncome } from "./command/income/GetIncome";
-import { CreateUser } from "./command/user/CreateUser";
-import { GetAllUsers } from "./command/user/GetAllUsers";
-import { GetUser } from "./command/user/GetUser";
-import { User } from "./model/User";
+import { Application, Request, Response, NextFunction } from "express";
+import CommandBus from "./command/CommandBus";
+import GetAllExpenses from "./command/expense/GetAllExpenses";
+import GetExpense from "./command/expense/GetExpense";
+import GetAllIncome from "./command/income/GetAllIncome";
+import GetIncome from "./command/income/GetIncome";
+import CreateUser from "./command/user/CreateUser";
+import GetAllUsers from "./command/user/GetAllUsers";
+import GetUserById from "./command/user/GetUserById";
+import GetUserByUsername from "./command/user/GetUserByUsername";
+import User from "./model/User";
+import bcrypt from 'bcrypt';
 
 export class Router {
     private app: Application;
@@ -35,19 +36,19 @@ export class Router {
         this.app.get(`${this.apiUrl}/user/:id`, (req: Request, res: Response): void => {
             const id: number = parseInt(req.params.id);
 
-            this.commandBus.dispatch(new GetUser(id)).then(data => {
+            this.commandBus.dispatch(new GetUserById(id)).then(data => {
                 if (data) {
                     res.json(data);
                     return;
                 }
 
                 res.status(404).json({
-                    message: `No user found with ID ${id}`
+                    error: `No user found with ID ${id}`
                 });
             });
         });
 
-        this.app.post(`${this.apiUrl}/user`, (req: Request, res: Response): void => {
+        this.app.post(`${this.apiUrl}/register`, (req: Request, res: Response): void => {
             try {
                 const {
                     username,
@@ -61,7 +62,33 @@ export class Router {
                 });
             } catch (e) {
                 res.status(500).json({
-                    message: 'Something went wrong. This might not be your fault.'
+                    error: 'Something went wrong. This might not be your fault.'
+                });
+            }
+        });
+
+        this.app.post(`${this.apiUrl}/login`, (req: Request, res: Response): void => {
+            try {
+                const {
+                    username,
+                    password // TODO this should be encrypted before being sent
+                } = req.body;
+
+                this.commandBus.dispatch(new GetUserByUsername(username)).then(user => {
+                    bcrypt.compare(password, user.password).then(result => {
+                        if (result) {
+                            return;
+                            // todo password was correct, create a cookie!
+                        }
+
+                        res.status(400).json({
+                            error: 'Invalid username and/or password.'
+                        });
+                    });
+                });
+            } catch (e) {
+                res.status(500).json({
+                    error: 'Something went wrong. This might not be your fault.'
                 });
             }
         });
@@ -90,7 +117,7 @@ export class Router {
                 }
 
                 res.status(404).json({
-                    message: `No expense found with ID ${id}`
+                    error: `No expense found with ID ${id}`
                 });
             })
         });
@@ -113,7 +140,7 @@ export class Router {
                 }
 
                 res.status(404).json({
-                    message: `No income found with ID ${id}`
+                    error: `No income found with ID ${id}`
                 });
             });
         });

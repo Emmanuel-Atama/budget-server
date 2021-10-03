@@ -1,8 +1,8 @@
-import { Command } from "./Command";
-import { CommandHandler } from "./CommandHandler";
-import { InvalidCommandError } from "./InvalidCommandError";
+import Command from "./Command";
+import CommandHandler from "./CommandHandler";
+import InvalidCommandError from "./InvalidCommandError";
 
-export class CommandRegistry {
+export default class CommandRegistry {
     private registry: [string, CommandHandler][];
 
     constructor(registry: [string, CommandHandler][]) {

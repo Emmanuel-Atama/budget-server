@@ -1,7 +1,7 @@
-import { Income } from "../../model/Income";
-import { EntityCommand } from "../EntityCommand";
+import Income from "../../model/Income";
+import EntityCommand from "../EntityCommand";
 
-export class CreateIncome implements EntityCommand {
+export default class CreateIncome implements EntityCommand {
     private readonly _income: Income;
 
     constructor(income: Income) {

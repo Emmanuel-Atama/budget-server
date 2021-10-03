@@ -1,9 +1,10 @@
 import { PrismaClient } from "@prisma/client";
-import { Income } from "../model/Income";
-import { Repository } from "./Repository";
-import { IncomeHydrator } from "./hydration/IncomeHydrator";
+import Income from "../model/Income";
+import Repository from "./Repository";
+import IncomeHydrator from "./hydration/IncomeHydrator";
+import Query from "./Query";
 
-export class IncomeRepository implements Repository {
+export default class IncomeRepository implements Repository {
     private dbClient: PrismaClient;
 
     constructor(dbClient: PrismaClient) {
@@ -51,5 +52,9 @@ export class IncomeRepository implements Repository {
         });
 
         return raw.map(data => IncomeHydrator.hydrate(data));
+    }
+
+    async getOneByQuery(query: Query): Promise<Income | null> {
+        return null;
     }
 }

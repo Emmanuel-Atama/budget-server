@@ -1,7 +1,7 @@
-import { Entity } from "./Entity";
-import { Timestamped } from "./Timestamped";
+import Entity from "./Entity";
+import Timestamped from "./Timestamped";
 
-export class Expense implements Timestamped, Entity {
+export default class Expense implements Timestamped, Entity {
     private readonly _id: number;
     private readonly _name: string;
     private readonly _source: string;

@@ -1,7 +1,7 @@
-import { Entity } from "./Entity";
-import { Timestamped } from "./Timestamped";
+import Entity from "./Entity";
+import Timestamped from "./Timestamped";
 
-export class User implements Entity, Timestamped {
+export default class User implements Entity, Timestamped {
     private readonly _id: number;
     private readonly _username: string;
     private readonly _password: string;

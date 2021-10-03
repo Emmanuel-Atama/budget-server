@@ -1,5 +1,5 @@
-import { Command } from "./Command";
+import Command from "./Command";
 
-export interface GetManyCommand extends Command {
+export default interface GetManyCommand extends Command {
     get limit(): number | undefined;
 }

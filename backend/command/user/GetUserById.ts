@@ -1,6 +1,6 @@
-import { IdentityCommand } from "../IdentityCommand";
+import IdentityCommand from "../IdentityCommand";
 
-export class GetUser implements IdentityCommand {
+export default class GetUserById implements IdentityCommand {
     private readonly _id;
 
     constructor(id: number) {
@@ -12,6 +12,6 @@ export class GetUser implements IdentityCommand {
     }
 
     getName(): string {
-        return 'GetUser';
+        return 'GetUserById';
     }
 }

@@ -1,9 +1,9 @@
-import { Repository } from "../../data/Repository";
-import { Entity } from "../../model/Entity";
-import { CommandHandler } from "../CommandHandler";
-import { IdentityCommand } from "../IdentityCommand";
+import Repository from "../../data/Repository";
+import Entity from "../../model/Entity";
+import CommandHandler from "../CommandHandler";
+import IdentityCommand from "../IdentityCommand";
 
-export class GetEntityByIdHandler implements CommandHandler {
+export default class GetEntityByIdHandler implements CommandHandler {
     private repository: Repository;
 
     constructor(repository: Repository) {

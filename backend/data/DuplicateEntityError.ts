@@ -1,4 +1,4 @@
-export class DuplicateEntityError extends Error {
+export default class DuplicateEntityError extends Error {
     constructor(msg: string) {
         super(msg);
 

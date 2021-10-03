@@ -1,6 +1,6 @@
-import { Expense } from "../../model/Expense";
+import Expense from "../../model/Expense";
 
-export class ExpenseHydrator {
+export default class ExpenseHydrator {
     static hydrate(raw: { id: number, name: string, source: string, amount: number, timestamp: Date }): Expense {
         const {
             id,

@@ -1,6 +1,6 @@
-import { GetManyCommand } from "../GetManyCommand";
+import GetManyCommand from "../GetManyCommand";
 
-export class GetAllUsers implements GetManyCommand {
+export default class GetAllUsers implements GetManyCommand {
     private readonly _limit;
 
     constructor(limit?: number) {

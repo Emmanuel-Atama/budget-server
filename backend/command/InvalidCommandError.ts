@@ -1,4 +1,4 @@
-export class InvalidCommandError extends Error {
+export default class InvalidCommandError extends Error {
     constructor(msg: string) {
         super(msg);
 

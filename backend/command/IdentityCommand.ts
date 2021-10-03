@@ -1,5 +1,5 @@
-import { Command } from "./Command";
+import Command from "./Command";
 
-export interface IdentityCommand extends Command {
+export default interface IdentityCommand extends Command {
     get id(): number;
 }

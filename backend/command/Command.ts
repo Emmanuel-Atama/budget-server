@@ -1,3 +1,3 @@
-export interface Command {
+export default interface Command {
     getName(): string;
 }
