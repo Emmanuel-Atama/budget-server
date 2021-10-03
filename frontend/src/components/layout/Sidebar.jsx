@@ -1,4 +1,4 @@
-export function Sidebar() {
+export default function Sidebar() {
     return (
         <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div className="position-sticky pt-3">

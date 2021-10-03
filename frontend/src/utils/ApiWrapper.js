@@ -1,4 +1,4 @@
-export class ApiWrapper {
+export default class ApiWrapper {
     _endpoints = {
         income: '/income',
         expense: '/expense'

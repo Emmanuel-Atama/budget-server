@@ -1,22 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './App.css';
-import { Header } from './components/layout/Header';
-import { Sidebar } from './components/layout/Sidebar';
-import { Main } from './components/layout/Main';
-import { useEffect, useState } from 'react';
-import { ApiWrapper } from './utils/ApiWrapper';
-
-const apiUrl = 'http://localhost:4000';
-const apiWrapper = new ApiWrapper(apiUrl);
+import Header from './components/layout/Header';
+import Sidebar from './components/layout/Sidebar';
+import Main from './components/layout/Main';
+import { useEffect } from 'react';
+import { useStore } from './state/store';
 
 function App() {
-  const [expenses, setExpenses] = useState([]);
-  const [income, setIncome] = useState([]);
-
-  console.log('In state', expenses, income);
+  const {
+    loadExpenses,
+    loadIncome
+  } = useStore(state => state);
 
   useEffect(() => {
-    apiWrapper.getAllExpenses().then(data => setExpenses(data));
-    apiWrapper.getAllIncome().then(data => setIncome(data));
+    loadExpenses();
+    loadIncome();
   }, []);
 
   return (
@@ -26,7 +24,6 @@ function App() {
 
       <div className="container-fluid">
         <div className="row">
-
           <Sidebar />
 
           <Main />
