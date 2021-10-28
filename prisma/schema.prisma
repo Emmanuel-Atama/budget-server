@@ -19,7 +19,7 @@ model Account {
 
 model Budget {
   id            Int       @id @default(autoincrement())
-  timestamp     DateTime  @default(now()) @db.Timestamp(3)
+  yearAndMonth  Int // 202101 for January, 202102 for March etc.
   transactions  Transaction[]
 }
 
