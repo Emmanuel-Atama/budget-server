@@ -18,8 +18,7 @@ model Account {
 }
 
 model Budget {
-  id            Int       @id @default(autoincrement())
-  yearAndMonth  Int // 202101 for January, 202102 for March etc.
+  id            Int       @id // Manually create ID using year & month, e.g. 202101 for Jan, 202102 for March
   transactions  Transaction[]
 }
 
