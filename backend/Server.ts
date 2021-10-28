@@ -1,11 +1,11 @@
 import { Application } from "express";
-import { Router } from "./Router";
+import { ApiRouter } from "./ApiRouter";
 
 export class Server {
     private app: Application;
-    private router: Router;
+    private router: ApiRouter;
 
-    constructor(app: Application, router: Router) {
+    constructor(app: Application, router: ApiRouter) {
         this.app = app;
         this.router = router;
     }

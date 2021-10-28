@@ -11,24 +11,51 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Income {
-  id        Int       @id @default(autoincrement())
-  source    String    @db.VarChar(255)
-  amount    Float
-  timestamp DateTime  @default(now()) @db.Timestamp(6)
+model Account {
+  id            Int       @id @default(autoincrement())
+  name          String
+  transactions  Transaction[]
 }
 
-model Expense {
-  id        Int       @id @default(autoincrement())
-  name      String    @db.VarChar(255)
-  source    String    @db.VarChar(255)
-  amount    Float
-  timestamp DateTime  @default(now()) @db.Timestamp(6)
+model Budget {
+  id            Int       @id @default(autoincrement())
+  timestamp     DateTime  @default(now()) @db.Timestamp(3)
+  transactions  Transaction[]
+}
+
+model Transaction {
+  id            Int       @id @default(autoincrement())
+  accountId     Int
+  account       Account   @relation(fields: [accountId], references: [id])
+  categoryId    Int
+  category      Category  @relation(fields: [categoryId], references: [id])
+  budgetId      Int
+  budget        Budget    @relation(fields: [budgetId], references: [id])
+
+  recipient     String
+  description   String
+  amount        Float     @db.DoublePrecision
+  timestamp     DateTime  @default(now()) @db.Timestamp(3)
+}
+
+model Category {
+  id                Int             @id @default(autoincrement())
+  transactions      Transaction[]
+  categoryGroupId   Int
+  categoryGroup     CategoryGroup   @relation(fields: [categoryGroupId], references: [id])
+  name              String
+  amount            Float           @db.DoublePrecision
+}
+
+model CategoryGroup {
+  id    Int   @id @default(autoincrement())
+  categories  Category[]
+  name  String
 }
 
 model User {
   id Int @id @default(autoincrement())
   username String
   password String
-  timestamp DateTime @default(now()) @db.Timestamp(6)
+  timestamp DateTime @default(now()) @db.Timestamp(3)
 }
