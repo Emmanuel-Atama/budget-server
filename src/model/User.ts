@@ -32,10 +32,10 @@ export default class User implements Entity, Timestamped {
 
     toJSON() {
         return {
-            id: this._id,
-            username: this._username,
-            password: this._password,
-            timestamp: this._timestamp
+            id: this.id,
+            username: this.username,
+            password: this.password,
+            timestamp: this.timestamp.getTime()
         };
     }
 }

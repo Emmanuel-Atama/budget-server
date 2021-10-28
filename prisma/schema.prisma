@@ -31,7 +31,7 @@ model Transaction {
   budgetId      Int
   budget        Budget    @relation(fields: [budgetId], references: [id])
 
-  recipient     String
+  payee         String
   description   String
   amount        Float     @db.DoublePrecision
   timestamp     DateTime  @default(now()) @db.Timestamp(3)
