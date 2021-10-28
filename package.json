@@ -2,10 +2,10 @@
   "name": "budget",
   "version": "1.0.0",
   "description": "Personal budgeting app",
-  "main": "index.js",
+  "main": "app.ts",
   "scripts": {
-    "start": "node dist/backend/app.js",
-    "dev": "nodemon backend/app.ts",
+    "start": "node dist/app.js",
+    "dev": "nodemon src/app.ts",
     "build": "tsc -p ."
   },
   "author": "Nathan King",
