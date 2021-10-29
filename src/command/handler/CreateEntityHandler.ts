@@ -10,6 +10,10 @@ export default class CreateEntityHandler implements CommandHandler {
     }
 
     async handle(command: EntityCommand): Promise<void> {
-        this.repository.create(command.entity);
+        try {
+            await this.repository.create(command.entity);
+        } catch (e) {
+            Promise.reject(e)
+        }
     }
 }

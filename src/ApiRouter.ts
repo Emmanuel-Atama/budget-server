@@ -4,6 +4,7 @@ import UserController from "./routes/user/UserController";
 import UserRouter from "./routes/user/UserRouter";
 import bcrypt from 'bcrypt';
 import CommandBus from "./command/CommandBus";
+import jwt from 'jsonwebtoken';
 
 export class ApiRouter implements Router {
     private app: Application;
@@ -21,6 +22,8 @@ export class ApiRouter implements Router {
             res.send('This is the API\'s base URL!');
         });
 
-        (new UserRouter(this.app, this.apiUrl, new UserController(this.commandBus, bcrypt))).initializeRoutes();
+        const userController = new UserController(this.commandBus, bcrypt, jwt);
+
+        (new UserRouter(this.app, this.apiUrl, userController)).initializeRoutes();
     }
 }

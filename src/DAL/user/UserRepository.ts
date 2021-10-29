@@ -21,18 +21,18 @@ export default class UserRepository implements Repository {
         });
 
         if (foundUser) {
-            throw new DuplicateEntityError(`User with username '${user.username}' already exists!`);
+            return Promise.reject(`User with username '${user.username}' already exists!`);
         }
 
-        await bcrypt.hash(user.password, 10, async (error, hash) => {
-            await this.dbClient.user.create({
+        return bcrypt.hash(user.password, 10).then((hash) => {
+            this.dbClient.user.create({
                 data: {
                     ...UserHydrator.dehydrate(user),
                     password: hash,
                     id: undefined,
                     timestamp: undefined
                 }
-            });
+            }).then(console.log);
         });
     }
 

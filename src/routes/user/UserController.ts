@@ -9,10 +9,12 @@ import CommandBus from "../../command/CommandBus";
 export default class UserController {
     private commandBus: CommandBus;
     private bcrypt: any;
+    private jwt: any;
 
-    constructor(commandBus: CommandBus, bcrypt: any) {
+    constructor(commandBus: CommandBus, bcrypt: any, jwt: any) {
         this.commandBus = commandBus;
         this.bcrypt = bcrypt;
+        this.jwt = jwt;
     }
 
     async getAll(req: Request, res: Response): Promise<void> {
@@ -43,13 +45,34 @@ export default class UserController {
                 password
             } = req.body;
     
-            await this.commandBus.dispatch(new CreateUser(new User(0, username, password, new Date)))
-            
-            // todo create an auth token and respond with the user id
-            res.json({ message: 'User created successfully!' });
-        } catch (e) {
+            await this.commandBus.dispatch(new CreateUser(new User(0, username, password, new Date)));
+            const createdUser = await this.commandBus.dispatch(new GetUserByUsername(username));
+
+            if (createdUser) {
+                this.jwt.sign(
+                    { id: createdUser.id, username: createdUser.username },
+                    process.env.JWT_SECRET,
+                    { expiresIn: '20s' },
+                    (error: any, token: string) => {
+                        if (error) {
+                            res.status(500).json({
+                                error: 'Something went wrong while logging in.'
+                            });
+                            return;
+                        }
+
+                        res.json({ token });
+                    }
+                );
+
+                return;
+            }
+
+            res.status(500).json({ error: 'Something went wrong during sign up.' });
+        } catch (e: any) {
+            console.log(e);
             res.status(500).json({
-                error: 'Something went wrong. This might not be your fault.'
+                error: e
             });
         }
     }
@@ -58,16 +81,32 @@ export default class UserController {
         try {
             const {
                 username,
-                password // TODO this should be encrypted before being sent
+                password
             } = req.body;
     
             const user = await this.commandBus.dispatch(new GetUserByUsername(username));
+            console.log("user", user);
     
             if (user) {
                 const compared = await this.bcrypt.compare(password, user.password)
+                console.log("compared", compared)
                 if (compared) {
-                    res.json(user);
-                    // todo password was correct, create a token
+                    this.jwt.sign(
+                        { id: user.id, username: user.username },
+                        process.env.JWT_SECRET,
+                        { expiresIn: '20s' },
+                        (error: any, token: string) => {
+                            if (error) {
+                                res.status(500).json({
+                                    error: 'Something went wrong while logging in.'
+                                });
+                                return;
+                            }
+    
+                            res.json({ token });
+                        }
+                    );
+
                     return;
                 }
             }

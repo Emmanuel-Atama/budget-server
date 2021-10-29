@@ -12,6 +12,8 @@ export default class GetUserByUsernameHandler implements CommandHandler {
     }
 
     async handle(command: GetUserByUsername): Promise<Entity | null> {
-        return await this.repository.getOneByQuery((new UserQuery).username = command.username);
+        const query = new UserQuery();
+        query.username = command.username;
+        return await this.repository.getOneByQuery(query);
     }
 }

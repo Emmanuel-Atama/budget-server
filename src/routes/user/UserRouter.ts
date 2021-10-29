@@ -14,9 +14,9 @@ export default class UserRouter implements Router {
     }
 
     public initializeRoutes(): void {
-        this.app.get(`${this.apiUrl}/user/:id`, this.controller.getById);
-        this.app.post(`${this.apiUrl}/register`, this.controller.register);
-        this.app.post(`${this.apiUrl}/login`, this.controller.login);
-        this.app.get(`${this.apiUrl}/user`, this.controller.getAll);
+        this.app.get(`${this.apiUrl}/user/:id`, (req, res) => this.controller.getById(req, res));
+        this.app.post(`${this.apiUrl}/register`, (req, res) => this.controller.register(req, res));
+        this.app.post(`${this.apiUrl}/login`, (req, res) => this.controller.login(req, res));
+        this.app.get(`${this.apiUrl}/user`, (req, res) => this.controller.getAll(req, res));
     }
 }
