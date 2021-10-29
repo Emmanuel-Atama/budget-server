@@ -53,8 +53,16 @@ model CategoryGroup {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  username String
-  password String
-  timestamp DateTime @default(now()) @db.Timestamp(3)
+  id        Int       @id @default(autoincrement())
+  username  String
+  password  String
+  token     Token?
+  timestamp DateTime  @default(now()) @db.Timestamp(3)
+}
+
+model Token {
+  id      Int  @id @default(autoincrement())
+  token   String
+  userId  Int
+  user    User @relation(fields: [userId], references: [id])
 }

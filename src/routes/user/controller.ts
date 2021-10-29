@@ -51,7 +51,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
             const compared = await bcrypt.compare(password, user.password)
             if (compared) {
                 res.json(user);
-                // todo password was correct, create a cookie!
+                // todo password was correct, create a token
                 return;
             }
         }
