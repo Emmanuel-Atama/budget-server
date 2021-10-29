@@ -1,4 +1,4 @@
-import User from "../../model/User";
+import User from "./User";
 
 export default class UserHydrator {
     static hydrate(raw: { id: number, username: string, password: string, timestamp: Date }): User {

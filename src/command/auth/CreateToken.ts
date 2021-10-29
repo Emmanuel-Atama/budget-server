@@ -1,4 +1,4 @@
-import User from "../../model/User";
+import User from "../../DAL/user/User";
 import Command from "../Command";
 
 export default class CreateToken implements Command {

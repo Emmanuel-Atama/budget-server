@@ -1,5 +1,5 @@
-import Entity from "./Entity";
-import Timestamped from "./Timestamped";
+import Entity from "../../model/Entity";
+import Timestamped from "../../model/Timestamped";
 
 export default class User implements Entity, Timestamped {
     private readonly _id: number;
@@ -35,7 +35,7 @@ export default class User implements Entity, Timestamped {
             id: this.id,
             username: this.username,
             password: this.password,
-            timestamp: this.timestamp.getTime()
+            timestamp: this.timestamp
         };
     }
 }

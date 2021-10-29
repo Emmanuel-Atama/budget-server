@@ -1,10 +1,10 @@
 import { PrismaClient } from "@prisma/client";
-import User from "../model/User";
-import Repository from "./Repository";
-import UserHydrator from "./hydration/UserHydrator";
-import DuplicateEntityError from "./DuplicateEntityError";
+import User from "./User";
+import Repository from "../Repository";
+import UserHydrator from "./UserHydrator";
+import DuplicateEntityError from "../DuplicateEntityError";
 import bcrypt from 'bcrypt';
-import UserQuery from "./query/UserQuery";
+import UserQuery from "./UserQuery";
 
 export default class UserRepository implements Repository {
     private dbClient: PrismaClient;

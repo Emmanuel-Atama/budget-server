@@ -1,4 +1,4 @@
-import User from "../../model/User";
+import User from "../../DAL/user/User";
 import EntityCommand from "../EntityCommand";
 
 export default class CreateUser implements EntityCommand {
