@@ -1,8 +1,7 @@
-import UserQuery from "../../../data/query/UserQuery";
-import Repository from "../../../data/Repository";
-import Entity from "../../../model/Entity";
+import UserQuery from "../../../DAL/user/UserQuery";
+import Repository from "../../../DAL/Repository";
+import Entity from "../../../DAL/Entity";
 import CommandHandler from "../../CommandHandler";
-import IdentityCommand from "../../IdentityCommand";
 import GetUserByUsername from "../GetUserByUsername";
 
 export default class GetUserByUsernameHandler implements CommandHandler {

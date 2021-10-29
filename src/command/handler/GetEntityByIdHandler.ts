@@ -1,5 +1,5 @@
-import Repository from "../../data/Repository";
-import Entity from "../../model/Entity";
+import Repository from "../../DAL/Repository";
+import Entity from "../../DAL/Entity";
 import CommandHandler from "../CommandHandler";
 import IdentityCommand from "../IdentityCommand";
 

@@ -1,4 +1,4 @@
-import Repository from "../../data/Repository";
+import Repository from "../../DAL/Repository";
 import CommandHandler from "../CommandHandler";
 import EntityCommand from "../EntityCommand";
 

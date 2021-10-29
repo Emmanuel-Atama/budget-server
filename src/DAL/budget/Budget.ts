@@ -1,4 +1,4 @@
-import Entity from "./Entity";
+import Entity from "../Entity";
 
 export default class Budget implements Entity {
     private readonly _id: number;

@@ -1,4 +1,4 @@
-import Entity from "../model/Entity";
+import Entity from "./Entity";
 import Query from "./Query";
 
 export default interface Repository {

@@ -1,4 +1,4 @@
-import Entity from "./Entity";
+import Entity from "../Entity";
 
 export default class Category implements Entity {
     private readonly _id: number;

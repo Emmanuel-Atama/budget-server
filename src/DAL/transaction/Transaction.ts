@@ -1,5 +1,5 @@
-import Entity from "./Entity";
-import Timestamped from "./Timestamped";
+import Entity from "../Entity";
+import Timestamped from "../Timestamped";
 
 export default class Transaction implements Entity, Timestamped {
     private readonly _id: number;

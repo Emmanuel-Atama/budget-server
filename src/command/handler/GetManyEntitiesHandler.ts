@@ -1,6 +1,6 @@
-import Repository from "../../data/Repository";
+import Repository from "../../DAL/Repository";
 import CommandHandler from "../CommandHandler";
-import Entity from "../../model/Entity";
+import Entity from "../../DAL/Entity";
 import GetManyCommand from "../GetManyCommand";
 
 export default class GetManyEntitiesHandler implements CommandHandler {

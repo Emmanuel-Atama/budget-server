@@ -1,4 +1,4 @@
-import Entity from "../model/Entity";
+import Entity from "../DAL/Entity";
 import Command from "./Command";
 
 export default interface EntityCommand extends Command {

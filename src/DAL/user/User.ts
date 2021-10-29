@@ -1,5 +1,5 @@
-import Entity from "../../model/Entity";
-import Timestamped from "../../model/Timestamped";
+import Entity from "../Entity";
+import Timestamped from "../Timestamped";
 
 export default class User implements Entity, Timestamped {
     private readonly _id: number;
