@@ -1,17 +1,17 @@
 import Token from "./Token";
 
 export default class TokenHydrator {
-    static hydrate(raw: { id: number, jwt: string, userId: number }): Token {
+    static hydrate(raw: { id: number, token: string, userId: number }): Token {
         const {
             id,
-            jwt,
+            token,
             userId
         } = raw;
 
-        return new Token(id, jwt, userId);
+        return new Token(id, token, userId);
     }
 
-    static dehydrate(token: Token): { id: number, jwt: string, userId: number } {
+    static dehydrate(token: Token): { id: number, token: string, userId: number } {
         return token.toJSON();
     }
 }

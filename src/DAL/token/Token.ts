@@ -2,12 +2,12 @@ import Entity from "../Entity";
 
 export default class Token implements Entity {
     private readonly _id: number;
-    private readonly _jwt: string;
+    private readonly _token: string;
     private readonly _userId: number;
 
-    constructor(id: number, jwt: string, userId: number) {
+    constructor(id: number, token: string, userId: number) {
         this._id = id;
-        this._jwt = jwt;
+        this._token = token;
         this._userId = userId;
     }
 
@@ -15,8 +15,8 @@ export default class Token implements Entity {
         return this._id;
     }
 
-    get jwt(): string {
-        return this._jwt;
+    get token(): string {
+        return this._token;
     }
 
     get userId(): number {
@@ -26,7 +26,7 @@ export default class Token implements Entity {
     toJSON() {
         return {
             id: this.id,
-            jwt: this.jwt,
+            token: this.token,
             userId: this.userId
         };
     }
