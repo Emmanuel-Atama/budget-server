@@ -5,6 +5,8 @@ import UserHydrator from "./UserHydrator";
 import DuplicateEntityError from "../DuplicateEntityError";
 import bcrypt from 'bcrypt';
 import UserQuery from "./UserQuery";
+import Entity from "../Entity";
+import Query from "../Query";
 
 export default class UserRepository implements Repository {
     private dbClient: PrismaClient;
@@ -79,5 +81,9 @@ export default class UserRepository implements Repository {
         }
 
         return null;
+    }
+
+    getManyByQuery(query: Query): Promise<Entity[]> {
+        throw new Error("Method not implemented.");
     }
 }

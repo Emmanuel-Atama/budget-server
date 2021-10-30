@@ -7,5 +7,6 @@ export default interface Repository {
     delete(id: number): void;
     getOne(id: number): Promise<Entity | null>;
     getOneByQuery(query: Query): Promise<Entity | null>;
+    getManyByQuery(query: Query): Promise<Entity[]>;
     getMany(limit?: number): Promise<Entity[]>;
 }
