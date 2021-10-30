@@ -17,6 +17,7 @@ const registry: CommandRegistry = new CommandRegistry([
     ['GetUserByUsername', new GetUserByUsernameHandler(userRepository)],
     ['GetAllUsers', new GetManyEntitiesHandler(userRepository)],
     ['CreateUser', new CreateEntityHandler(userRepository)],
+    ['CreateAccount', new CreateEntityHandler(accountRepository)],
     ['GetAccountsByUserId', new GetAccountsByUserIdHandler(accountRepository)],
 ]);
 
