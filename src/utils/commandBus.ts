@@ -6,7 +6,7 @@ import CreateEntityHandler from "../command/handler/CreateEntityHandler";
 import GetEntityByIdHandler from "../command/handler/GetEntityByIdHandler";
 import GetManyEntitiesHandler from "../command/handler/GetManyEntitiesHandler";
 import GetUserByUsernameHandler from "../command/user/handler/GetUserByUsernameHandler";
-import GetAccountsByUserIdHandler from "../command/account/handler/GetAccountsByUserIdHandler";
+import GetAccountsByUsernameHandler from "../command/account/handler/GetAccountsByUsernameHandler";
 import AccountRepository from "../DAL/account/AccountRepository";
 
 const userRepository: UserRepository = new UserRepository(dbClient);
@@ -18,7 +18,7 @@ const registry: CommandRegistry = new CommandRegistry([
     ['GetAllUsers', new GetManyEntitiesHandler(userRepository)],
     ['CreateUser', new CreateEntityHandler(userRepository)],
     ['CreateAccount', new CreateEntityHandler(accountRepository)],
-    ['GetAccountsByUserId', new GetAccountsByUserIdHandler(accountRepository)],
+    ['GetAccountsByUserId', new GetAccountsByUsernameHandler(accountRepository)],
 ]);
 
 const commandBus: CommandBus = new CommandBus(registry);

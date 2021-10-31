@@ -3,9 +3,9 @@ import AccountQuery from "../../../DAL/account/AccountQuery";
 import Repository from "../../../DAL/Repository";
 import Command from "../../Command";
 import CommandHandler from "../../CommandHandler";
-import GetAccountsByUserId from "../GetAccountsByUserId";
+import GetAccountsByUserId from "../GetAccountsByUsername";
 
-export default class GetAccountsByUserIdHandler implements CommandHandler {
+export default class GetAccountsByUsernameHandler implements CommandHandler {
     private repository: Repository;
 
     constructor(repository: Repository) {
