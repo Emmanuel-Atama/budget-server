@@ -48,7 +48,7 @@ export default class AccountController {
             const accountToCreate = new Account(0, name, user.id);
             
             await this.commandBus.dispatch(new CreateAccount(accountToCreate));
-            res.status(200);
+            res.status(200).json({ message: "Account created!" });
         } catch (e) {
             console.error(e);
             res.status(500).json({
