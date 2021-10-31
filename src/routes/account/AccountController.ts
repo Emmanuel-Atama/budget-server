@@ -16,7 +16,17 @@ export default class AccountController {
     async getAll(req: AuthenticatedRequest, res: Response): Promise<void> {
         if (req.user?.id) {
             const accounts = await this.commandBus.dispatch(new GetAccountsByUserId(req.user?.id));
-            res.json({ accounts });
+
+            const accountsToSend = accounts.map((account: Account) => {
+                return {
+                    ...account.toJSON(),
+                    userId: undefined
+                };
+            })
+
+            res.json({ accounts: accountsToSend });
+            
+            return;
         }
         
         res.status(403).json({ error: 'Unable to authenticate the token provided for the user.' });

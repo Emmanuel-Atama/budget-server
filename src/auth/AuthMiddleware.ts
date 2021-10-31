@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import AuthenticatedRequest from "./AuthenticatedRequest";
-import { Base64 } from 'js-base64';
 import jwt, { Secret } from 'jsonwebtoken';
 
 export default class AuthMiddleware {
@@ -13,10 +12,12 @@ export default class AuthMiddleware {
         }
 
         const bearer = bearerHeader.split(' ');
-        const token = Base64.decode(bearer[1]);
+        const token = bearer[1];
+        console.log("TOKEN: ", token);
 
-        jwt.verify(token, process.env.JWT_SECRET as Secret, (error, decoded) => {
+        return jwt.verify(token, process.env.JWT_SECRET as Secret, (error, decoded) => {
             if (error) {
+                console.log("ERRRRRRRROR HERE", error);
                 res.status(403).json({ error: 'Invalid token provided.' });
                 return;
             }
@@ -26,15 +27,12 @@ export default class AuthMiddleware {
                     id: decoded.id,
                     username: decoded.username
                 }
-                
-                next();
-                return;
+
+                return next();
             }
             
             res.status(403).json({ error: 'Invalid token provided.' });
             return;
         });
-
-        next();
     }
 }

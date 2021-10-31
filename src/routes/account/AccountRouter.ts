@@ -18,7 +18,7 @@ export default class AccountRouter implements Router {
     }
 
     public initializeRoutes(): void {
-        this.app.get(`${this.apiUrl}/account`, this.authMiddleware.verify, (req: AuthenticatedRequest, res: Response) => this.controller.getAllByUsername(req, res));
-        this.app.post(`${this.apiUrl}/account`, this.authMiddleware.verify, (req: AuthenticatedRequest, res: Response) => this.controller.createOneForUser(req, res));
+        this.app.get(`${this.apiUrl}/account`, this.authMiddleware.verify, async (req: AuthenticatedRequest, res: Response) => await this.controller.getAll(req, res));
+        this.app.post(`${this.apiUrl}/account`, this.authMiddleware.verify, async (req: AuthenticatedRequest, res: Response) => await this.controller.create(req, res));
     }
 }

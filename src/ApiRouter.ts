@@ -5,6 +5,9 @@ import UserRouter from "./routes/user/UserRouter";
 import bcrypt from 'bcrypt';
 import CommandBus from "./command/CommandBus";
 import jwt from 'jsonwebtoken';
+import AccountController from "./routes/account/AccountController";
+import AccountRouter from "./routes/account/AccountRouter";
+import AuthMiddleware from "./auth/AuthMiddleware";
 
 export class ApiRouter implements Router {
     private app: Application;
@@ -23,7 +26,9 @@ export class ApiRouter implements Router {
         });
 
         const userController = new UserController(this.commandBus, bcrypt, jwt);
+        const accountController = new AccountController(this.commandBus);
 
         (new UserRouter(this.app, this.apiUrl, userController)).initializeRoutes();
+        (new AccountRouter(this.app, this.apiUrl, accountController, new AuthMiddleware)).initializeRoutes();
     }
 }

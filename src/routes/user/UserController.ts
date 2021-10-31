@@ -52,7 +52,7 @@ export default class UserController {
                 this.jwt.sign(
                     { id: createdUser.id, username: createdUser.username },
                     process.env.JWT_SECRET,
-                    { expiresIn: '20s' },
+                    { expiresIn: process.env.JWT_EXPIRY },
                     (error: any, token: string) => {
                         if (error) {
                             res.status(500).json({
@@ -94,7 +94,7 @@ export default class UserController {
                     this.jwt.sign(
                         { id: user.id, username: user.username },
                         process.env.JWT_SECRET,
-                        { expiresIn: '20s' },
+                        { expiresIn: process.env.JWT_EXPIRY },
                         (error: any, token: string) => {
                             if (error) {
                                 res.status(500).json({

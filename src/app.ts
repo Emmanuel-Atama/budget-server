@@ -1,5 +1,5 @@
 import { Server } from "./Server";
-import express, { Application } from 'express';
+import express, { Application, Send } from 'express';
 import { ApiRouter } from "./ApiRouter";
 import cors from 'cors';
 import commandBus from "./utils/commandBus";
