@@ -12,15 +12,15 @@ export default class BudgetController {
     }
 
     async create(req: AuthenticatedRequest, res: Response): Promise<void> {
+        const { yearMonth } = req.body;
+
         try {
             if (!req.user?.id) {
                 res.status(403).json({ error: 'Unable to authenticate the token provided for the user.' });
                 return;
             }
 
-            const today = new Date();
-            // todo Budget ID won't work like this if there is more than 1 user, need a better approach
-            const budgetToCreate = new Budget(parseInt(`${today.getFullYear()}${today.getMonth()}`), req.user.id);
+            const budgetToCreate = new Budget(0, req.user.id, yearMonth);
 
             await this.commandBus.dispatch(new CreateBudget(budgetToCreate));
         

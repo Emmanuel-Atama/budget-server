@@ -1,16 +1,17 @@
 import Budget from "./Budget";
 
 export default class BudgetHydrator {
-    static hydrate(raw: { id: number, userId: number }): Budget {
+    static hydrate(raw: { id: number, userId: number, yearMonth: number }): Budget {
         const {
             id,
-            userId
+            userId,
+            yearMonth
         } = raw;
 
-        return new Budget(id, userId);
+        return new Budget(id, userId, yearMonth);
     }
 
-    static dehydrate(budget: Budget): { id: number, userId: number } {
+    static dehydrate(budget: Budget): { id: number, userId: number, yearMonth: number } {
         return budget.toJSON();
     }
 }

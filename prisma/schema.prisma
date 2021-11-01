@@ -29,7 +29,8 @@ model Account {
 }
 
 model Budget {
-  id            Int       @id // Manually create ID using year & month, e.g. 202101 for Jan, 202102 for March
+  id            Int       @id @default(autoincrement())
+  yearMonth     Int // Manually create using year & month, e.g. 202101 for Jan, 202102 for March
   userId        Int
   user          User      @relation(fields: [userId], references: [id])
   transactions  Transaction[]
