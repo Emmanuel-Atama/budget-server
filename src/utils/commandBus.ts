@@ -8,9 +8,11 @@ import GetManyEntitiesHandler from "../command/handler/GetManyEntitiesHandler";
 import GetUserByUsernameHandler from "../command/user/handler/GetUserByUsernameHandler";
 import GetAccountsByUsernameHandler from "../command/account/handler/GetAccountsByUsernameHandler";
 import AccountRepository from "../DAL/account/AccountRepository";
+import BudgetRepository from "../DAL/budget/BudgetRepository";
 
 const userRepository: UserRepository = new UserRepository(dbClient);
 const accountRepository: AccountRepository = new AccountRepository(dbClient);
+const budgetRepository: BudgetRepository = new BudgetRepository(dbClient);
 
 const registry: CommandRegistry = new CommandRegistry([
     ['GetUserById', new GetEntityByIdHandler(userRepository)],
@@ -19,6 +21,7 @@ const registry: CommandRegistry = new CommandRegistry([
     ['CreateUser', new CreateEntityHandler(userRepository)],
     ['CreateAccount', new CreateEntityHandler(accountRepository)],
     ['GetAccountsByUserId', new GetAccountsByUsernameHandler(accountRepository)],
+    ['CreateBudget', new CreateEntityHandler(budgetRepository)],
 ]);
 
 const commandBus: CommandBus = new CommandBus(registry);

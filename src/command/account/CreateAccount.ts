@@ -16,5 +16,4 @@ export default class CreateAccount implements EntityCommand {
     getName(): string {
         return 'CreateAccount';
     }
-
 }
