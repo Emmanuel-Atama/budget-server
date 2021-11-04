@@ -21,12 +21,20 @@ export default class Category implements Entity {
         return this._name;
     }
 
+    get categoryGroupId(): number {
+        return this._groupId;
+    }
+
+    get amount(): number {
+        return this._amount;
+    }
+
     toJSON() {
         return {
-            id: this._id,
-            name: this._name,
-            amount: this._amount,
-            groupId: this._groupId,
+            id: this.id,
+            name: this.name,
+            amount: this.amount,
+            categoryGroupId: this.categoryGroupId,
         };
     }
 }

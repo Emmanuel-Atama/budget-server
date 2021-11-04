@@ -1,10 +1,15 @@
 import { Response } from "express";
 import AuthenticatedRequest from "../../auth/AuthenticatedRequest";
+import CreateAccount from "../../command/account/CreateAccount";
 import CreateBudget from "../../command/budget/CreateBudget";
+import CreateCategory from "../../command/category/CreateCategory";
+import CreateCategoryGroup from "../../command/categoryGroup/CreateCategoryGroup";
 import CommandBus from "../../command/CommandBus";
+import Account from "../../DAL/account/Account";
 import Budget from "../../DAL/budget/Budget";
 import Category from "../../DAL/category/Category";
 import CategoryGroup from "../../DAL/categoryGroup/CategoryGroup";
+import Transaction from "../../DAL/transaction/Transaction";
 
 export default class BudgetController {
     private commandBus: CommandBus;
@@ -32,14 +37,36 @@ export default class BudgetController {
         // Create budget using user.id and yearMonth
         const budget = await this.commandBus.dispatch(new CreateBudget(new Budget(0, user.id, yearMonth)));
 
-        categoryGroups.forEach((categoryGroup: { name: string, categories: [{ name: string }] }) => {
-            // Create the default CategoryGroup's and Category's using the created budget's ID
-            // Set category amounts to 0
+        const categoriesForGroups: { groupName: string, categories: { name: string }[]}[] = [];
+        const groupProms: Promise<CategoryGroup>[] = categoryGroups.map((categoryGroup: { name: string, categories: { name: string }[] }) => {
+            categoriesForGroups.push({ groupName: categoryGroup.name, categories: categoryGroup.categories });
+            return this.commandBus.dispatch(new CreateCategoryGroup(new CategoryGroup(0, categoryGroup.name, budget.id)));
         });
-            
-        accounts.forEach((account: { name: string, startingBalance: number }) => {
-            // Create each account in the accounts array using the created budget's ID
-            // Using the startingBalance on each account object, create an initial transaction of > 0
+
+        const groups: CategoryGroup[] = await Promise.all(groupProms);
+
+        let categoryProms: Promise<Category>[] = []
+        groups.forEach((group: CategoryGroup) => {
+            const g = categoriesForGroups.find((cg => cg.groupName === group.name));
+            g?.categories.forEach(cat => {
+                categoryProms = [...categoryProms, this.commandBus.dispatch(new CreateCategory(new Category(0, cat.name, 0, group.id)))]
+            });
+        });
+
+        await Promise.all(categoryProms);
+
+        const accountProms: Promise<Account>[] = accounts.map((account: { name: string, startingBalance: number }) => {
+            return this.commandBus.dispatch(new CreateAccount(new Account(0, account.name, budget.id)));
+        });
+        const createdAccounts = await Promise.all(accountProms);
+
+        let transactionProms: Promise<Transaction>[];
+        createdAccounts.forEach((createdAccount: Account) => {
+            const a = accounts.find(acc => acc.name === createdAccount.name);
+            // Append create transaction promises using a.startingBalance if > 0
+            if (a.startingBalance > 0) {
+                // transactionProms = [...transactionProms, ]
+            }
         });
     }
 

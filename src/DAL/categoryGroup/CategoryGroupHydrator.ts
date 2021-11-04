@@ -14,13 +14,4 @@ export default class CategoryGroupHydrator {
     static dehydrate(categoryGroup: CategoryGroup): { id: number, name: string, budgetId: number } {
         return categoryGroup.toJSON();
     }
-
-    static defaultGroups(budgetId: number): CategoryGroup[] {
-        return [
-            new CategoryGroup(0, 'Priority Expenses', budgetId),
-            new CategoryGroup(0, 'Debts', budgetId),
-            new CategoryGroup(0, 'Savings & Investments', budgetId),
-            new CategoryGroup(0, 'Fun', budgetId)
-        ];
-    }
 }
