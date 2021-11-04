@@ -1,3 +1,4 @@
+import Entity from "../../DAL/Entity";
 import Repository from "../../DAL/Repository";
 import CommandHandler from "../CommandHandler";
 import EntityCommand from "../EntityCommand";
@@ -9,11 +10,11 @@ export default class CreateEntityHandler implements CommandHandler {
         this.repository = repository;
     }
 
-    async handle(command: EntityCommand): Promise<void> {
+    async handle(command: EntityCommand): Promise<Entity> {
         try {
-            await this.repository.create(command.entity);
+            return await this.repository.create(command.entity);
         } catch (e) {
-            Promise.reject(e)
+            throw 'Something went wrong during create.';
         }
     }
 }

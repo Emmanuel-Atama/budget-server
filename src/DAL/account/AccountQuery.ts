@@ -1,13 +1,13 @@
 import Query from "../Query";
 
 export default class AccountQuery implements Query {
-    private _userId: number | null = null;
+    private _budgetId: number | null = null;
 
-    set userId(userId: number | null) {
-        this._userId = userId;
+    set budgetId(budgetId: number | null) {
+        this._budgetId = budgetId;
     }
 
-    get userId(): number | null {
-        return this._userId;
+    get budgetId(): number | null {
+        return this._budgetId;
     }
 }

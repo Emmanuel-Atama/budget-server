@@ -13,20 +13,22 @@ export default class AccountRepository implements Repository {
         this.dbClient = dbClient;
     }
 
-    async create(account: Account): Promise<void> {
-        await this.dbClient.account.create({
+    async create(account: Account): Promise<Account> {
+        const raw = await this.dbClient.account.create({
             data: {
                 ...AccountHydrator.dehydrate(account),
                 id: undefined
             }
         });
+
+        return AccountHydrator.hydrate(raw);
     }
 
     async getManyByQuery(query: AccountQuery): Promise<Account[]> {
-        if (query.userId) {
+        if (query.budgetId) {
             const raw = await this.dbClient.account.findMany({
                 where: {
-                    userId: query.userId
+                    budgetId: query.budgetId
                 }
             });
 

@@ -15,7 +15,7 @@ export default class UserRepository implements Repository {
         this.dbClient = dbClient;
     }
 
-    async create(user: User): Promise<void> {
+    async create(user: User): Promise<User> {
         const foundUser = await this.dbClient.user.findFirst({
             where: {
                 username: user.username
@@ -26,16 +26,17 @@ export default class UserRepository implements Repository {
             return Promise.reject(`User with username '${user.username}' already exists!`);
         }
 
-        return bcrypt.hash(user.password, 10).then((hash) => {
-            this.dbClient.user.create({
-                data: {
-                    ...UserHydrator.dehydrate(user),
-                    password: hash,
-                    id: undefined,
-                    timestamp: undefined
-                }
-            }).then(console.log);
+        const hash = await bcrypt.hash(user.password, 10);
+        const rawUser = await this.dbClient.user.create({
+            data: {
+                ...UserHydrator.dehydrate(user),
+                password: hash,
+                id: undefined,
+                timestamp: undefined
+            }
         });
+        
+        return UserHydrator.hydrate(rawUser);
     }
 
     async update(user: User): Promise<void> {

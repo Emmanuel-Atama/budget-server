@@ -15,24 +15,24 @@ model User {
   id        Int       @id @default(autoincrement())
   username  String
   password  String
-  accounts  Account[]
   budget    Budget?
   timestamp DateTime  @default(now()) @db.Timestamp(3)
+}
+
+model Budget {
+  id              Int       @id @default(autoincrement())
+  yearMonth       Int // Manually create using year & month, e.g. 202101 for Jan, 202102 for March
+  userId          Int
+  user            User      @relation(fields: [userId], references: [id])
+  categoryGroups  CategoryGroup[]
+  accounts        Account[]
 }
 
 model Account {
   id            Int       @id @default(autoincrement())
   name          String
-  userId        Int
-  user          User      @relation(fields: [userId], references: [id])
-  transactions  Transaction[]
-}
-
-model Budget {
-  id            Int       @id @default(autoincrement())
-  yearMonth     Int // Manually create using year & month, e.g. 202101 for Jan, 202102 for March
-  userId        Int
-  user          User      @relation(fields: [userId], references: [id])
+  budgetId      Int
+  budget        Budget      @relation(fields: [budgetId], references: [id])
   transactions  Transaction[]
 }
 
@@ -42,8 +42,6 @@ model Transaction {
   account       Account   @relation(fields: [accountId], references: [id])
   categoryId    Int
   category      Category  @relation(fields: [categoryId], references: [id])
-  budgetId      Int
-  budget        Budget    @relation(fields: [budgetId], references: [id])
 
   payee         String
   description   String
@@ -61,7 +59,9 @@ model Category {
 }
 
 model CategoryGroup {
-  id    Int   @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   categories  Category[]
-  name  String
+  budgetId    Int
+  budget      Budget      @relation(fields: [budgetId], references: [id])
+  name        String
 }

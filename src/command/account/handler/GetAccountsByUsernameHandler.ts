@@ -14,7 +14,7 @@ export default class GetAccountsByUsernameHandler implements CommandHandler {
 
     async handle(command: GetAccountsByUserId): Promise<Account[] | null> {
         const query = new AccountQuery();
-        query.userId = command.userId;
+        query.budgetId = command.userId;
         return await this.repository.getManyByQuery(query) as Account[];
     }
 }

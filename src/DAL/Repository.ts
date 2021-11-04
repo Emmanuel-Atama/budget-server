@@ -2,7 +2,7 @@ import Entity from "./Entity";
 import Query from "./Query";
 
 export default interface Repository {
-    create(entity: Entity): void;
+    create(entity: Entity): Promise<Entity>;
     update(entity: Entity): void;
     delete(id: number): void;
     getOne(id: number): Promise<Entity | null>;

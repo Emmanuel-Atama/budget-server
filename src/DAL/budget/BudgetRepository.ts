@@ -12,13 +12,15 @@ export default class BudgetRepository implements Repository {
         this.dbClient = dbClient;
     }
 
-    async create(budget: Budget): Promise<void> {
-        await this.dbClient.budget.create({
+    async create(budget: Budget): Promise<Budget> {
+        const raw = await this.dbClient.budget.create({
             data: {
                 ...BudgetHydrator.dehydrate(budget),
                 id: undefined
             }
         });
+
+        return BudgetHydrator.hydrate(raw);
     }
 
     update(entity: Entity): void {
