@@ -38,8 +38,8 @@ export default class BudgetController {
         const createdAccounts: Account[] = [];
         const createdTransactions: Transaction[] = [];
 
-        let i = accounts.length - 1;
-        while (i --> -1) {
+        let i = accounts.length;
+        while (i --> 0) {
             const { startingBalance, name } = accounts[i];
             const createdAccount = await this.commandBus.dispatch(new CreateAccount(new Account(0, name, budget.id)));
             createdAccounts.push(createdAccount);

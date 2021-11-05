@@ -14,6 +14,7 @@ export default class CreateEntityHandler implements CommandHandler {
         try {
             return await this.repository.create(command.entity);
         } catch (e) {
+            console.log(e);
             throw 'Something went wrong during create.';
         }
     }

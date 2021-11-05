@@ -18,7 +18,6 @@ export default class BudgetRouter implements Router {
     }
 
     public initializeRoutes(): void {
-        // this.app.get(`${this.apiUrl}/budget`, this.authMiddleware.verify, async (req: AuthenticatedRequest, res: Response) => await this.controller.getAll(req, res));
-        this.app.post(`${this.apiUrl}/budget`, this.authMiddleware.verify, async (req: AuthenticatedRequest, res: Response) => await this.controller.create(req, res));
+        this.app.post(`${this.apiUrl}/budget`, this.authMiddleware.verify, async (req: AuthenticatedRequest, res: Response) => await this.controller.initializeBudget(req, res));
     }
 }

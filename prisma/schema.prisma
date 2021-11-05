@@ -15,7 +15,7 @@ model User {
   id        Int       @id @default(autoincrement())
   username  String
   password  String
-  budget    Budget?
+  budgets   Budget[]
   timestamp DateTime  @default(now()) @db.Timestamp(3)
 }
 

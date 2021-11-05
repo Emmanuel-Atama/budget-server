@@ -23,16 +23,19 @@ export default class BudgetInitializer {
         let incomeCategory: Category | null = null;
         let createdCategories: { group: CategoryGroup, categories: Category[] }[] = [];
 
-        let i = groups.length - 1;
-        while (i --> -1) {
+        let i = groups.length;
+        while (i --> 0) {
             const createdGroup = await this.commandBus.dispatch(new CreateCategoryGroup(groups[i][0]));
             const categoryCreation: { group: CategoryGroup, categories: Category[] } = {
                 group: createdGroup,
                 categories: []
             };
 
-            let j = groups[i][1].length - 1;
-            while (j --> -1) {
+            let j = groups[i][1].length;
+            console.log('before while', j);
+            while (j --> 0) {
+                console.log('in while', j);
+                console.log(groups[i][1]);
                 const categoryName = groups[i][1][j].name;
                 const createdCategory = await this.commandBus.dispatch(new CreateCategory(new Category(0, categoryName, 0, createdGroup.id)));
                 categoryCreation.categories.push(createdCategory);
@@ -41,6 +44,8 @@ export default class BudgetInitializer {
                     incomeCategory = createdCategory;
                 }
             }
+
+            createdCategories.push(categoryCreation);
         }
 
         return {
