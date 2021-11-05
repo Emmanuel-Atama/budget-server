@@ -1,6 +1,6 @@
 import { Application, Response } from "express";
+import Auth from "../../auth/Auth";
 import AuthenticatedRequest from "../../auth/AuthenticatedRequest";
-import AuthMiddleware from "../../auth/AuthMiddleware";
 import Router from "../../Router";
 import BudgetController from "./BudgetController";
 
@@ -8,9 +8,9 @@ export default class BudgetRouter implements Router {
     private app: Application;
     private apiUrl: string;
     private controller: BudgetController;
-    private authMiddleware: AuthMiddleware;
+    private authMiddleware: Auth;
 
-    constructor(app: Application, apiUrl: string, controller: BudgetController, authMiddleware: AuthMiddleware) {
+    constructor(app: Application, apiUrl: string, controller: BudgetController, authMiddleware: Auth) {
         this.app = app;
         this.apiUrl = apiUrl;
         this.controller = controller;

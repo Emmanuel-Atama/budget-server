@@ -1,6 +1,6 @@
 import { Application, Response } from "express";
+import Auth from "../../auth/Auth";
 import AuthenticatedRequest from "../../auth/AuthenticatedRequest";
-import AuthMiddleware from "../../auth/AuthMiddleware";
 import Router from "../../Router";
 import AccountController from "./AccountController";
 
@@ -8,9 +8,9 @@ export default class AccountRouter implements Router {
     private app: Application;
     private apiUrl: string;
     private controller: AccountController;
-    private authMiddleware: AuthMiddleware;
+    private authMiddleware: Auth;
 
-    constructor(app: Application, apiUrl: string, controller: AccountController, authMiddleware: AuthMiddleware) {
+    constructor(app: Application, apiUrl: string, controller: AccountController, authMiddleware: Auth) {
         this.app = app;
         this.apiUrl = apiUrl;
         this.controller = controller;

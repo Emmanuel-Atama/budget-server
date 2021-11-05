@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import AuthenticatedRequest from "./AuthenticatedRequest";
 import jwt, { Secret } from 'jsonwebtoken';
+import Auth from "./Auth";
 
-export default class AuthMiddleware {
+export default class AuthMiddleware implements Auth {
     verify(req: AuthenticatedRequest, res: Response, next: NextFunction) {
         const bearerHeader = req.headers['authorization'];
 
@@ -17,7 +18,6 @@ export default class AuthMiddleware {
 
         return jwt.verify(token, process.env.JWT_SECRET as Secret, (error, decoded) => {
             if (error) {
-                console.log("ERRRRRRRROR HERE", error);
                 res.status(403).json({ error: 'Invalid token provided.' });
                 return;
             }

@@ -11,12 +11,14 @@ import AccountRepository from "../DAL/account/AccountRepository";
 import BudgetRepository from "../DAL/budget/BudgetRepository";
 import CategoryGroupRepository from "../DAL/categoryGroup/CategoryGroupRepository";
 import CategoryRepository from "../DAL/category/CategoryRepository";
+import TransactionRepository from "../DAL/transaction/TransactionRepository";
 
 const userRepository: UserRepository = new UserRepository(dbClient);
 const accountRepository: AccountRepository = new AccountRepository(dbClient);
 const budgetRepository: BudgetRepository = new BudgetRepository(dbClient);
 const categoryGroupRepository: CategoryGroupRepository = new CategoryGroupRepository(dbClient);
 const categoryRepository: CategoryRepository = new CategoryRepository(dbClient);
+const transactionRepository: TransactionRepository = new TransactionRepository(dbClient);
 
 const registry: CommandRegistry = new CommandRegistry([
     ['GetUserById', new GetEntityByIdHandler(userRepository)],
@@ -28,6 +30,7 @@ const registry: CommandRegistry = new CommandRegistry([
     ['CreateBudget', new CreateEntityHandler(budgetRepository)],
     ['CreateCategoryGroup', new CreateEntityHandler(categoryGroupRepository)],
     ['CreateCategory', new CreateEntityHandler(categoryRepository)],
+    ['CreateTransaction', new CreateEntityHandler(transactionRepository)],
 ]);
 
 const commandBus: CommandBus = new CommandBus(registry);

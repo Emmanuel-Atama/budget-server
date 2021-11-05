@@ -6,8 +6,11 @@ import bcrypt from 'bcrypt';
 import CommandBus from "./command/CommandBus";
 import jwt from 'jsonwebtoken';
 import AccountController from "./routes/account/AccountController";
+import BudgetController from "./routes/budget/BudgetController";
 import AccountRouter from "./routes/account/AccountRouter";
 import AuthMiddleware from "./auth/AuthMiddleware";
+import MockAuthMiddleware from "./auth/MockAuthMiddleware";
+import BudgetRouter from "./routes/budget/BudgetRouter";
 
 export class ApiRouter implements Router {
     private app: Application;
@@ -25,10 +28,14 @@ export class ApiRouter implements Router {
             res.send('This is the API\'s base URL!');
         });
 
+        const auth = new MockAuthMiddleware();
+
         const userController = new UserController(this.commandBus, bcrypt, jwt);
         const accountController = new AccountController(this.commandBus);
+        const budgetController = new BudgetController(this.commandBus);
 
         (new UserRouter(this.app, this.apiUrl, userController)).initializeRoutes();
-        (new AccountRouter(this.app, this.apiUrl, accountController, new AuthMiddleware)).initializeRoutes();
+        (new AccountRouter(this.app, this.apiUrl, accountController, auth)).initializeRoutes();
+        (new BudgetRouter(this.app, this.apiUrl, budgetController, auth)).initializeRoutes();
     }
 }
