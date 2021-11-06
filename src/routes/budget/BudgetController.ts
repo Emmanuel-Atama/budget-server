@@ -28,7 +28,8 @@ export default class BudgetController {
             accounts // @Object<{ name: @String, startingBalance: @Number }>[]
         } = req.body;
 
-        const { budget, incomeCategory, createdCategories } = await (new BudgetInitializer(this.commandBus)).init(user.id);
+        const availableFunds = accounts.reduce((a, b) => a + b.startingBalance, 0);
+        const { budget, incomeCategory, createdCategories } = await (new BudgetInitializer(this.commandBus)).init(user.id, availableFunds);
 
         if (!incomeCategory) {
             res.status(500).json({ error: 'Something went wrong when initializing the budget.' })

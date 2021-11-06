@@ -13,9 +13,9 @@ export default class BudgetInitializer {
         this.commandBus = commandBus;
     }
 
-    async init(userId: number, ): Promise<{ budget: Budget, incomeCategory: Category | null, createdCategories: { group: CategoryGroup, categories: Category[] }[] }> {
+    async init(userId: number, availableFunds: number): Promise<{ budget: Budget, incomeCategory: Category | null, createdCategories: { group: CategoryGroup, categories: Category[] }[] }> {
         const today = new Date();
-        const yearMonth = parseInt(`${today.getFullYear()}${today.getMonth()}`);
+        const yearMonth = parseInt(`${today.getFullYear()}${today.getMonth()+1}`);
 
         const budget = await this.commandBus.dispatch(new CreateBudget(new Budget(0, userId, yearMonth)));
 
@@ -37,7 +37,8 @@ export default class BudgetInitializer {
                 console.log('in while', j);
                 console.log(groups[i][1]);
                 const categoryName = groups[i][1][j].name;
-                const createdCategory = await this.commandBus.dispatch(new CreateCategory(new Category(0, categoryName, 0, createdGroup.id)));
+                const assignedAmount = categoryName === 'Ready to Assign' ? availableFunds : 0;
+                const createdCategory = await this.commandBus.dispatch(new CreateCategory(new Category(0, categoryName, assignedAmount, createdGroup.id)));
                 categoryCreation.categories.push(createdCategory);
 
                 if (categoryName === 'Ready to Assign') {
