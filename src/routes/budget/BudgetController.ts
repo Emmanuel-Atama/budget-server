@@ -36,25 +36,28 @@ export default class BudgetController {
             return;
         }
 
-        const createdAccounts: Account[] = [];
-        const createdTransactions: Transaction[] = [];
+        const createdAccounts: { id: number, name: string, transactions: {}[] }[] = [];
 
         let i = accounts.length;
         while (i --> 0) {
             const { startingBalance, name } = accounts[i];
-            const createdAccount = await this.commandBus.dispatch(new CreateAccount(new Account(0, name, budget.id)));
-            createdAccounts.push(createdAccount);
+            const createdAccount: Account = await this.commandBus.dispatch(new CreateAccount(new Account(0, name, budget.id)));
             
             const transactionToCreate = new Transaction(0, createdAccount.id, incomeCategory?.id, 'Starting Balance', '', startingBalance, new Date);
-            const transaction = await this.commandBus.dispatch(new CreateTransaction(transactionToCreate));
-            createdTransactions.push(transaction);
+            const transaction: Transaction = await this.commandBus.dispatch(new CreateTransaction(transactionToCreate));
+            const accountJson = { ...createdAccount.toJSON(), budgetId: undefined };
+            createdAccounts.push({
+                ...accountJson,
+                transactions: [{...transaction.toJSON(), accountId: undefined}]
+            });
         }
 
+        const budgetJson = budget.toJSON();
         res.json({
-            budget,
-            categories: createdCategories,
+            ...budgetJson,
+            userId: undefined,
+            categoryGroups: createdCategories,
             accounts: createdAccounts,
-            transactions: createdTransactions,
         });
     }
 

@@ -27,7 +27,8 @@ export default class BudgetInitializer {
         while (i --> 0) {
             const createdGroup = await this.commandBus.dispatch(new CreateCategoryGroup(groups[i][0]));
             const categoryCreation: { group: CategoryGroup, categories: Category[] } = {
-                group: createdGroup,
+                ...createdGroup.toJSON(),
+                budgetId: undefined,
                 categories: []
             };
 
@@ -39,7 +40,7 @@ export default class BudgetInitializer {
                 const categoryName = groups[i][1][j].name;
                 const assignedAmount = categoryName === 'Ready to Assign' ? availableFunds : 0;
                 const createdCategory = await this.commandBus.dispatch(new CreateCategory(new Category(0, categoryName, assignedAmount, createdGroup.id)));
-                categoryCreation.categories.push(createdCategory);
+                categoryCreation.categories.push({...createdCategory.toJSON(), categoryGroupId: undefined});
 
                 if (categoryName === 'Ready to Assign') {
                     incomeCategory = createdCategory;
